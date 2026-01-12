@@ -1,0 +1,22 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Lock files
+composer.lock
+package-lock.json
+#bun.lockb
+
+# Build artifacts (tuỳ pipeline)
+public-assets/dist/
+public-assets/build/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Env
+.env
+.env.*
