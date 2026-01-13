@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yivic\Codemall_Skin\App\WP;
 
 use Yivic\Codemall_Skin\App\Support\Traits\Codemall_Skin_Trans_Trait;
-use Yivic_Base\Deps\Illuminate\Contracts\Container\BindingResolutionException;
 use Yivic_Base\Foundation\WP\WP_Theme;
 
 class Codemall_Skin_WP_Theme extends WP_Theme {
@@ -20,9 +19,7 @@ class Codemall_Skin_WP_Theme extends WP_Theme {
 	}
 
 	/**
-	 * All hooks should be registered here, inside this method
-	 * @return void
-	 * @throws BindingResolutionException
+	 * All hooks should be registered here.
 	 */
 	public function manipulate_hooks(): void {
 		add_action( 'after_setup_theme', [ $this, 'setup_theme' ] );
@@ -50,7 +47,15 @@ class Codemall_Skin_WP_Theme extends WP_Theme {
 		add_post_type_support( 'post', 'page-attributes' );
 	}
 
-	public function enqueue_scripts() {
+	public function register(): void {
+		parent::register();
+		$viewsPath = rtrim( $this->get_base_path(), '/\\' ) . '/resources/views';
+		if ( is_dir( $viewsPath ) ) {
+			$this->loadViewsFrom( $viewsPath, $this->get_theme_slug() );
+		}
+	}
+
+	public function enqueue_scripts(): void {
 		$is_local = defined( 'WP_ENV' ) && WP_ENV === 'local';
 		$version = $is_local ? time() : $this->get_version();
 
