@@ -1,11 +1,11 @@
-<article class="post-card" id="post-@php(the_ID())" @php(post_class())>
+<article id="post-{{ get_the_ID() }}" @php( post_class( 'post-card' ) )>
     <h2 class="post-card__title">
-        <a class="post-card__link" href="@php echo esc_url(get_permalink()); @endphp">
-            @php the_title(); @endphp
+        <a href="{{ esc_url( get_permalink() ) }}" class="post-card__link">
+            {{ esc_html( get_the_title() ) }}
         </a>
     </h2>
 
     <div class="post-card__content">
-        @php the_content(); @endphp
+        {!! apply_filters('the_content', get_the_content()) !!}
     </div>
 </article>
